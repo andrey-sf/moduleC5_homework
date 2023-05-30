@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Image App</title>
+  </head>
+  <body>
+    <input type="number" id="widthInput" placeholder="Ширина (100-300)" />
+    <input type="number" id="heightInput" placeholder="Высота (100-300)" />
+    <button id="submitButton">Получить картинку</button>
+    <div id="imageContainer"></div>
+
+    <script>
+      const widthInput = document.getElementById('widthInput');
+      const heightInput = document.getElementById('heightInput');
+      const submitButton = document.getElementById('submitButton');
+      const imageContainer = document.getElementById('imageContainer');
+
+      submitButton.addEventListener('click', () => {
+        const width = parseInt(widthInput.value);
+        const height = parseInt(heightInput.value);
+
+        if (isNaN(width) || isNaN(height) || width < 100 || width > 300 || height < 100 || height > 300) {
+          imageContainer.innerHTML = 'Одно из чисел вне диапазона от 100 до 300';
+        } else {
+          const url = `https://picsum.photos/${width}/${height}`;
+          fetch(url)
+            .then(response => {
+              if (response.ok) {
+                imageContainer.innerHTML = `<img src="${url}" alt="Image" />`;
+              } else {
+                imageContainer.innerHTML = 'Ошибка при получении данных';
+              }
+            })
+            .catch(error => {
+              imageContainer.innerHTML = 'Ошибка при выполнении запроса';
+            });
+        }
+      });
+    </script>
+  </body>
+</html>
